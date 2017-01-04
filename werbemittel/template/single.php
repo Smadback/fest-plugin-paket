@@ -49,6 +49,7 @@ get_header(); ?>
             $title = get_the_title();
             $href = get_permalink();
             $beschreibung = get_post_meta(get_the_id(), 'werbemittel_beschreibung', true);
+            $bild = get_post_meta(get_the_id(), 'werbemittel_bild', true);
             $stueckpreis = get_post_meta(get_the_id(), 'werbemittel_stueckpreis', true);
             $lager = get_post_meta(get_the_id(), 'werbemittel_lager', true);
 
@@ -92,10 +93,13 @@ get_header(); ?>
 
                 <div class="entry-content">
                     <?php
-                    echo '<p>';
-                    echo $beschreibung;
-                    echo '</p>';
+                    echo wp_get_attachment_image($bild, "thumbnail", false, array("class"=>"werbemittel-bild", "style"=>"float:left"));
+                    echo '<p>'. $beschreibung. '<br>'.'</p>';
+                    echo '<p>' . 'Auf Lager: <b>' . $lager . ' St&uuml;ck</b><br>St&uuml;ckpreis: <b>' . $stueckpreis . '</b></p>';
                     ?>
+
+                    <hr>
+                    <p>Sollten Sie welche für Ihren Standort bestellen wollen, kann dies über dieses Formular getan werden.</p>
 
                     <?php echo $response; ?>
                     <form action="<?php the_permalink(); ?>" method="post">
@@ -116,7 +120,7 @@ get_header(); ?>
                             </select>
                         </p>
                         <input type="hidden" name="submitted" value="1">
-                        <p><input type="submit"></p>
+                        <input type="submit" value="Bestellung aufgeben">
                     </form>
 
                 </div><!-- .entry-content -->

@@ -41,7 +41,7 @@ function fest_werbemittel_meta_callback() {
                 $editor = 'werbemittel_beschreibung';
                 $settings = array(
                     'textarea_rows' => 8,
-                    'media_buttons' => true
+                    'media_buttons' => false
                 );
 
                 wp_editor($content, $editor, $settings);
@@ -65,6 +65,18 @@ function fest_werbemittel_meta_callback() {
                 <input type="text" name="werbemittel_lager" id="werbemittel-lager" value="<?php if (!empty ($fest_stored_meta['werbemittel_lager'])) echo esc_attr($fest_stored_meta['werbemittel_lager'][0]); ?>"/>
             </div>
         </div>
+
+        <div class="meta-row">
+            <div class="meta-th">
+                <label for="werbemittel-bild" class="fest-row-title">Bild hochladen</label>
+            </div>
+            <div class="meta-td">
+                <input id="werbemittel-bild" type="text" name="werbemittel_bild" value="<?php if (!empty ($fest_stored_meta['werbemittel_bild'])) echo esc_attr($fest_stored_meta['werbemittel_bild'][0]); ?>" />
+                <input id="werbemittel-bild-button" type="button" value="Bild auswählen" />
+            </div>
+        </div>
+
+
     </div>
 <?php
 }
@@ -128,6 +140,9 @@ function fest_werbemittel_meta_save($post_id) {
             $neuer_bestand = $neuer_bestand - intval(sanitize_text_field($_POST['werbemittel_abziehen']));
             update_post_meta($post_id, 'werbemittel_lager', sanitize_text_field($neuer_bestand));
         endif;
+    }
+    if(isset($_POST['werbemittel_bild'])) {
+        update_post_meta($post_id, 'werbemittel_bild', sanitize_text_field($_POST['werbemittel_bild']));
     }
 
 }
