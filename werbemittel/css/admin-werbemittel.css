@@ -1,3 +1,13 @@
 .werbemittel-bild {
     float:left;
 }
+
+span {
+    position: relative;
+    margin-right: -20px
+}
+
+input[type='number'] {
+    padding-left: 20px;
+    text-align: left;
+}

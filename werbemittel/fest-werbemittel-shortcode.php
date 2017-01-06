@@ -37,15 +37,13 @@ function fest_werbemittel_shortcode($atts, $content = null) {
             /* read all the meta data of the post */
             $title = get_the_title();
             $href = get_permalink();
-            $beschreibung = get_post_meta(get_the_id(), 'werbemittel_beschreibung', true);
             $stueckpreis = get_post_meta(get_the_id(), 'werbemittel_stueckpreis', true);
             $lager = get_post_meta(get_the_id(), 'werbemittel_lager', true);
 
             /* put the data into html */
             $html_output .= '<tr>';
             $html_output .= '<td>'.sprintf('<a href="%s">%s</a>&nbsp;', esc_url($href), esc_html($title)).'</td>';
-//            $html_output .= '<td>'.esc_html($beschreibung).'</td>';
-            $html_output .= '<td>'.esc_html($stueckpreis).'</td>';
+            $html_output .= '<td>' . esc_html(number_format($stueckpreis, 2, ',', '.')) . ' €</td>';
             $html_output .= '<td>'.esc_html($lager).'</td>';
             $html_output .= '</tr>';
         endwhile;

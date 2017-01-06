@@ -59,21 +59,30 @@ get_header(); ?>
                 //php mailer variables
                 $current_user = wp_get_current_user();
                 $menge = esc_attr($_POST['bestellung_menge']);
-                $standort = get_post(esc_attr($_POST['bestellung_standort']));
+                $standort_id = esc_attr($_POST['bestellung_standort']);
+                $standort = get_post($standort_id);
+                $strasse = get_post_meta($standort_id, 'standort_strasse', true);
+                $ort = get_post_meta($standort_id, 'standort_ort', true);
                 $headers = array(
                     'Content-Type: text/html; charset=UTF-8',
                     'From: ' . $current_user->user_email
                 );
                 $subject = 'Bestellung für ' . $title;
-                $message = 'Es ist eine Bestellung vom Standort <b>' . $standort->post_title . '</b> f&uuml;r ' . $title .
-                    ' eingetroffen. Die Bestellung wurde von <b>' . $current_user->user_name . '</b> aufgegeben.<br><br>';
-                $message .= 'Menge: ' . $menge;
+                $message = 'Es ist eine Bestellung für Werbemittel eingetroffen.<br><br>';
+                $message .= '<table>';
+                $message .= '<tr><td><b>Bestellt von</b></td><td>' . $current_user->user_name . '</td></tr>';
+                $message .= '<tr><td valign="top"><b>Standort</b></td><td>' . $standort->post_title . '<br>' . $strasse . '<br>' . $ort . '</td></tr>';
+                $message .= '<tr><td><b>Artikel</b></td><td>' . $title . '</td></tr>';
+                $message .= '<tr><td><b>Menge</b></td><td>' . $menge . '</td></tr>';
+                $message .= '<tr><td><b>St&uuml;ckpreis</b></td><td>' . number_format($stueckpreis, 2, ',', '.') . ' &euro;</td></tr>';
+                $message .= '<tr><td><b>Gesamtpreis</b></td><td>' . number_format($stueckpreis * $menge, 2, ',', '.') . ' &euro;</td></tr>';
+                $message .= '</table>';
 
                 /* validate the input and sent the mail */
                 if(empty($menge)):
                     my_contact_form_generate_response("error", $missing_menge); // missing value for menge
                 else:
-                    $sent = wp_mail(get_option('werbemittel_to'), get_option('werbemittel_subject'), wpautop(get_option('werbemittel_message')), $headers); // sent email
+                    $sent = wp_mail(get_option('werbemittel_to'), $subject, $message, $headers); // sent email
                     if($sent):
                         my_contact_form_generate_response("success", $message_sent); // message sent!
                     else:
@@ -95,7 +104,7 @@ get_header(); ?>
                     <?php
                     echo wp_get_attachment_image($bild, "thumbnail", false, array("class"=>"werbemittel-bild", "style"=>"float:left"));
                     echo '<p>'. $beschreibung. '<br>'.'</p>';
-                    echo '<p>' . 'Auf Lager: <b>' . $lager . ' St&uuml;ck</b><br>St&uuml;ckpreis: <b>' . $stueckpreis . '</b></p>';
+                    echo '<p>' . 'Auf Lager: <b>' . $lager . ' St&uuml;ck</b><br>St&uuml;ckpreis: <b>' . number_format($stueckpreis, 2, ',', '.') . ' &euro;</b></p>';
                     ?>
 
                     <hr>
