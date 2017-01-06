@@ -2,12 +2,12 @@
     float:left;
 }
 
-span {
+.currency {
     position: relative;
     margin-right: -20px
 }
 
-input[type='number'] {
+.currency-number {
     padding-left: 20px;
     text-align: left;
 }

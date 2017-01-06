@@ -55,8 +55,9 @@ function fest_werbemittel_meta_callback() {
             <div class="meta-td">
                 <!--                <input type="text" name="werbemittel_stueckpreis" id="werbemittel-stueckpreis" value="-->
                 <?php //if (!empty ($fest_stored_meta['werbemittel_stueckpreis'])) echo esc_attr($fest_stored_meta['werbemittel_stueckpreis'][0]); ?><!--"/>-->
-                <input type="number" min="0.01" step="0.01" name="werbemittel_stueckpreis" id="werbemittel-stueckpreis"
-                       value="<?php if (!empty ($fest_stored_meta['werbemittel_stueckpreis'])) echo esc_attr($fest_stored_meta['werbemittel_stueckpreis'][0]); ?>"><span>€</span>
+                <span class="currency">&euro;</span><input class="currency-number" type="number" min="0.01" step="0.01"
+                                                           name="werbemittel_stueckpreis" id="werbemittel-stueckpreis"
+                                                           value="<?php if (!empty ($fest_stored_meta['werbemittel_stueckpreis'])) echo esc_attr($fest_stored_meta['werbemittel_stueckpreis'][0]); ?>">
             </div>
         </div>
 
