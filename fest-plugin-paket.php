@@ -3,7 +3,7 @@
 * Plugin Name: FEST Plugin Paket
 * Description: Enthält die Plugins für die Werbemittelbestellung und für Standorte der FEST AG
 * Author: Maik Schmaddebeck
-* Version: 0.1
+ * Version: 1.0
 */
 
 
