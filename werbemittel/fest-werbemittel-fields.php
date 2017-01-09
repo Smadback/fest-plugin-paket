@@ -32,7 +32,7 @@ function fest_werbemittel_meta_callback() {
     <div>
         <div class="meta-row">
             <div class="meta-th">
-                <span>Beschreibung</span>
+                <span>Beschreibung:</span>
             </div>
         </div>
         <div class="meta-editor">
@@ -40,13 +40,31 @@ function fest_werbemittel_meta_callback() {
                 $content = get_post_meta($post->ID, 'werbemittel_beschreibung', true);
                 $editor = 'werbemittel_beschreibung';
                 $settings = array(
-                    'textarea_rows' => 8,
+                    'textarea_rows' => 4,
                     'media_buttons' => false
                 );
 
                 wp_editor($content, $editor, $settings);
             ?>
         </div>
+
+          <div class="meta-row">
+              <div class="meta-th">
+                  <span>Anmerkungen:</span>
+              </div>
+          </div>
+          <div class="meta-editor">
+              <?php
+                  $content = get_post_meta($post->ID, 'werbemittel_anmerkung', true);
+                  $editor = 'werbemittel_anmerkung';
+                  $settings = array(
+                      'textarea_rows' => 4,
+                      'media_buttons' => false
+                  );
+
+                  wp_editor($content, $editor, $settings);
+              ?>
+          </div>
 
         <div class="meta-row">
             <div class="meta-th">
@@ -125,6 +143,9 @@ function fest_werbemittel_meta_save($post_id) {
 
     if(isset($_POST['werbemittel_beschreibung'])) {
         update_post_meta($post_id, 'werbemittel_beschreibung', sanitize_text_field($_POST['werbemittel_beschreibung']));
+    }
+    if(isset($_POST['werbemittel_anmerkung'])) {
+        update_post_meta($post_id, 'werbemittel_anmerkung', sanitize_text_field($_POST['werbemittel_anmerkung']));
     }
     if(isset($_POST['werbemittel_stueckpreis'])) {
         update_post_meta($post_id, 'werbemittel_stueckpreis', sanitize_text_field($_POST['werbemittel_stueckpreis']));

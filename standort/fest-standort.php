@@ -1,9 +1,9 @@
-<?php 
+<?php
 /**
 * Plugin Name: FEST Standorte
 * Description: Plugin zur Pflege der einzelnen Standorte der Tochterunternehmen der FEST AG
 * Author: Maik Schmaddebeck
-* Version: 0.0.1
+* Version: 0.1.0
 */
 
 /* Exit if accessed directly */

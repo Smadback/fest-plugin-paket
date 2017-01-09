@@ -4,8 +4,7 @@ function fest_werbemittel_shortcode($atts, $content = null) {
 
     $atts = shortcode_atts( array (
             'title' => 'Werbemittel',
-            'pagination' => false,
-            'count' => 5
+            'pagination' => false
         ), $atts
     );
 
@@ -15,7 +14,6 @@ function fest_werbemittel_shortcode($atts, $content = null) {
         'post_type'         => 'werbemittel',
         'post_status'       => 'publish',
         'no_found_rows'     => $atts['pagination'],
-        'posts_per_page'    => $atts['count'],
         'paged'             => $paged
     );
 
@@ -26,7 +24,6 @@ function fest_werbemittel_shortcode($atts, $content = null) {
         $html_output .= '<table>';
         $html_output .= '<tr>';
         $html_output .= '<th>Werbemittel</th>';
-//        $html_output .= '<th>Beschreibung</th>';
         $html_output .= '<th>St&uuml;ckpreis</th>';
         $html_output .= '<th>Menge auf Lager</th>';
         $html_output .= '</tr>';

@@ -1,12 +1,8 @@
 <?php
-/**
- * The template for displaying all single posts and attachments
- *
- * @package WordPress
- * @subpackage Twenty_Fifteen
- * @since Twenty Fifteen 1.0
- */
 
+/* ------------------------------------------------------------------------- *
+ *	Single Werbemittel template
+/* ------------------------------------------------------------------------- */
 
 //response generation function
 $response = "";
@@ -39,19 +35,28 @@ $standorte_query = new WP_Query($standorte_query_args);
 
 get_header(); ?>
 
-<div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
+
+
+<section class="container clearfix">
+    <?php get_sidebar( 'browse' ); ?>
+    <div class="wrap-template-1 clearfix">
+    <section class="content-wrap clearfix" role="main">
+    	<section class="posts-wrap single-style-template-1 clearfix">
+
 
         <?php
         // Start the loop.
         while (have_posts()) : the_post();
 
-            $title = get_the_title();
             $href = get_permalink();
-            $beschreibung = get_post_meta(get_the_id(), 'werbemittel_beschreibung', true);
-            $bild = get_post_meta(get_the_id(), 'werbemittel_bild', true);
-            $stueckpreis = get_post_meta(get_the_id(), 'werbemittel_stueckpreis', true);
-            $lager = get_post_meta(get_the_id(), 'werbemittel_lager', true);
+            $the_post = array(
+              'titel' => get_the_title(),
+              'beschreibung' => get_post_meta(get_the_id(), 'werbemittel_beschreibung', true),
+              'anmerkung' => get_post_meta(get_the_id(), 'werbemittel_anmerkung', true),
+              'bild' => get_post_meta(get_the_id(), 'werbemittel_bild', true),
+              'stueckpreis' => get_post_meta(get_the_id(), 'werbemittel_stueckpreis', true),
+              'lager' => get_post_meta(get_the_id(), 'werbemittel_lager', true)
+            );
 
             /* only execute this code if the form was submitted */
             if($submitted):
@@ -72,14 +77,14 @@ get_header(); ?>
                 $message .= '<table>';
                 $message .= '<tr><td><b>Bestellt von</b></td><td>' . $current_user->user_name . '</td></tr>';
                 $message .= '<tr><td valign="top"><b>Standort</b></td><td>' . $standort->post_title . '<br>' . $strasse . '<br>' . $ort . '</td></tr>';
-                $message .= '<tr><td><b>Artikel</b></td><td>' . $title . '</td></tr>';
-                $message .= '<tr><td><b>Menge</b></td><td>' . $menge . '</td></tr>';
-                $message .= '<tr><td><b>St&uuml;ckpreis</b></td><td>' . number_format($stueckpreis, 2, ',', '.') . ' &euro;</td></tr>';
-                $message .= '<tr><td><b>Gesamtpreis</b></td><td>' . number_format($stueckpreis * $menge, 2, ',', '.') . ' &euro;</td></tr>';
+                $message .= '<tr><td><b>Artikel</b></td><td>' . $the_post['titel'] . '</td></tr>';
+                $message .= '<tr><td><b>Menge</b></td><td>' . $the_post['menge'] . '</td></tr>';
+                $message .= '<tr><td><b>St&uuml;ckpreis</b></td><td>' . number_format($the_post['stueckpreis'], 2, ',', '.') . ' &euro;</td></tr>';
+                $message .= '<tr><td><b>Gesamtpreis</b></td><td>' . number_format($the_post['stueckpreis'] * $the_post['menge'], 2, ',', '.') . ' &euro;</td></tr>';
                 $message .= '</table>';
 
                 /* validate the input and sent the mail */
-                if(empty($menge)):
+                if(empty($the_post['menge'])):
                     my_contact_form_generate_response("error", $missing_menge); // missing value for menge
                 else:
                     $sent = wp_mail(get_option('werbemittel_to'), $subject, $message, $headers); // sent email
@@ -102,9 +107,10 @@ get_header(); ?>
 
                 <div class="entry-content">
                     <?php
-                    echo wp_get_attachment_image($bild, "thumbnail", false, array("class"=>"werbemittel-bild", "style"=>"float:left"));
-                    echo '<p>'. $beschreibung. '<br>'.'</p>';
-                    echo '<p>' . 'Auf Lager: <b>' . $lager . ' St&uuml;ck</b><br>St&uuml;ckpreis: <b>' . number_format($stueckpreis, 2, ',', '.') . ' &euro;</b></p>';
+                    echo wp_get_attachment_image($the_post['bild'], "thumbnail", false, array("class"=>"werbemittel-bild", "style"=>"float:left"));
+                    echo ($the_post['beschreibung'] != '') ? '<p>'. $the_post['beschreibung']. '<br>'.'</p>' : '';
+                    echo ($the_post['anmerkung'] != '') ? '<p>'. $the_post['anmerkung']. '<br>'.'</p>' : '';
+                    echo '<p>' . 'Auf Lager: <b>' . $the_post['lager'] . ' St&uuml;ck</b><br>St&uuml;ckpreis: <b>' . number_format($the_post['stueckpreis'], 2, ',', '.') . ' &euro;</b></p>';
                     ?>
 
                     <hr>
@@ -134,31 +140,21 @@ get_header(); ?>
 
                 </div><!-- .entry-content -->
 
-                <?php
-                // Author bio.
-                if (is_single() && get_the_author_meta('description')) :
-                    get_template_part('author-bio');
-                endif;
-                ?>
-
-                <footer class="entry-footer">
-                    <?php edit_post_link(__('Edit', 'twentyfifteen'), '<span class="edit-link">', '</span>'); ?>
-                </footer><!-- .entry-footer -->
-
             </article><!-- #post-## -->
 
             <?php
-
-            // If comments are open or we have at least one comment, load up the comment template.
-            if (comments_open() || get_comments_number()) :
-                comments_template();
-            endif;
 
             // End the loop.
         endwhile;
         ?>
 
-    </main><!-- .site-main -->
-</div><!-- .content-area -->
+
+      </section><!-- END .posts-wrap -->
+    </section><!-- END .content-wrap -->
+      <?php get_sidebar( 'posts' ); ?>
+    </div><!-- END .wrap-template-1 -->
+  </section><!-- END .container -->
+
+
 
 <?php get_footer(); ?>

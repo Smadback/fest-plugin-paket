@@ -1,9 +1,9 @@
-<?php 
+<?php
 /**
 * Plugin Name: FEST Werbemittel Liste
 * Description: Liste zur Werbemittelbestellung der FEST AG
 * Author: Maik Schmaddebeck
-* Version: 0.0.1
+* Version: 0.1.1
 */
 
 /* Exit if accessed directly */
@@ -38,10 +38,9 @@ add_filter('single_template', 'fest_werbemittel_single_template');
 function fest_werbemittel_admin_enqueue_scripts() {
     global $pagenow, $typenow;
 
-    wp_enqueue_style('fest-werbemittel-css', plugins_url('css/admin-werbemittel.css', __FILE__));
-
     // only load css and js when we really need it (on a Werbemittel edit/create page)
     if(($pagenow == 'post.php' || $pagenow == 'post-new.php') && $typenow == 'werbemittel') {
+        wp_enqueue_style('fest-werbemittel-css', plugins_url('css/admin-werbemittel.css', __FILE__));
         wp_enqueue_script('fest-werbemittel-js', plugins_url('js/admin-werbemittel.js', __FILE__), array('jquery','media-upload','thickbox'));
     }
 }
