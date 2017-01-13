@@ -107,7 +107,7 @@ get_header(); ?>
 
                 <div class="entry-content">
                     <?php
-                    echo wp_get_attachment_image($the_post['bild'], "thumbnail", false, array("class"=>"werbemittel-bild", "style"=>"float:left"));
+                    echo wp_get_attachment_image($the_post['bild'], "thumbnail", false, array("class"=>"werbemittel-bild", "style"=>"float:right"));
                     echo ($the_post['beschreibung'] != '') ? '<p>'. $the_post['beschreibung']. '<br>'.'</p>' : '';
                     echo ($the_post['anmerkung'] != '') ? '<p>'. $the_post['anmerkung']. '<br>'.'</p>' : '';
                     echo '<p>' . 'Auf Lager: <b>' . $the_post['lager'] . ' St&uuml;ck</b><br>St&uuml;ckpreis: <b>' . number_format($the_post['stueckpreis'], 2, ',', '.') . ' &euro;</b></p>';
